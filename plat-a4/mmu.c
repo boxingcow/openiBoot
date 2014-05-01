@@ -44,7 +44,10 @@ void initialize_pagetable() {
 	// Initialize the page table with a default identity mapping
 	mmu_map_section_range(MemoryStart, MemoryEnd, MemoryStart, FALSE, FALSE);
 
-	mmu_map_section_range(AMC0, AMC0End, AMC0, TRUE, TRUE);
+	// We should map at least the first 16MB as WT. 
+	mmu_map_section_range(MemoryStart, 16 * 1024 * 1024, MemoryStart, TRUE, TRUE);
+
+	mmu_map_section_range(AMC0, AMC0End, AMC0, FALSE, FALSE);
 
 	// Make memory cachable and bufferable
 	mmu_map_section_range(RAMStart, RAMEnd, RAMStart, TRUE, TRUE);
